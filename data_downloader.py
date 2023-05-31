@@ -13,17 +13,25 @@ EXTRACTED_FOLDER = 'extracted_raw'
 META_NAME = 'batches.meta'
 
 def get_directory() -> Path:
+    'returns working directory for data files'
     directory = DATA_DIRECTORY
     directory.mkdir(parents=True, exist_ok=True)
     return directory
 
 def get_tar_file() -> Path:
+    'returns Path for data tar file'
     return (get_directory() / FILE_NAME)
 
 def get_extracted_path() -> Path:
+    'returns directory Path for extracted files'
     return get_directory() / EXTRACTED_FOLDER
 
 def get_split_paths() -> tuple[Path, Path, Path]:
+    '''
+    returns paths for train, test, validate folders
+
+    @ rtn : Train, Test, Validate
+    '''
     train_path = get_directory() / 'train'
     test_path = get_directory() / 'test'
     validate_path = get_directory() / 'validate'
@@ -42,10 +50,12 @@ def get_split_paths() -> tuple[Path, Path, Path]:
     return (train_path, test_path, validate_path)
 
 def get_meta_path() -> Path:
+    'returns path for meta file'
     return get_directory() / META_NAME
 
 
 def download_data():
+    'Download data source from web'
     print('Starting download')
     r = requests.get(SOURCE_URL)
     print('Saving to', FILE_NAME)
@@ -53,12 +63,19 @@ def download_data():
         file.write(r.content)
     
 def extract_data():
+    'Extract downloaded tar.gz file'
     print('extracting data')
     with tarfile.open(get_tar_file(), 'r:gz') as file:
         file.extractall(path = get_extracted_path())
 
 
 def create_split(train: int, test: int, validate: int, data: list[Path]) -> tuple[list[Path]]:
+    '''
+    Splits data into train, test, validate partitions
+    
+    @ rtn : Train[], Test[], Validate[]
+    '''
+
     # shuffle data
     data = list(data)
     random.shuffle(data)
@@ -74,6 +91,7 @@ def create_split(train: int, test: int, validate: int, data: list[Path]) -> tupl
     return train_paths, test_paths, validate_paths
     
 def clean_split_data():
+    'removes split data'
     train_path, test_path, validate_path = get_split_paths()
 
     if train_path.exists():
@@ -84,6 +102,7 @@ def clean_split_data():
         shutil.rmtree(validate_path)
 
 def split_data(train: int, test: int, validate: int):
+    'Splits data batches into train test split partitions'
 
     clean_split_data()
 
@@ -118,11 +137,12 @@ def split_data(train: int, test: int, validate: int):
 
 
 def clean_up():
+    'removes excess files used for processing data'
     path = get_extracted_path()
     shutil.rmtree(path)
 
 def main():
-    #download_data()
+    download_data()
     extract_data()
     split_data(60,20,20)
     clean_up()
