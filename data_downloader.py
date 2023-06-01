@@ -36,13 +36,6 @@ def get_split_paths() -> tuple[Path, Path, Path]:
     test_path = get_directory() / 'test'
     validate_path = get_directory() / 'validate'
 
-    if train_path.exists():
-        shutil.rmtree(train_path)
-    if test_path.exists():
-        shutil.rmtree(test_path)
-    if validate_path.exists():
-        shutil.rmtree(validate_path)
-
     train_path.mkdir(parents=True, exist_ok=True)
     test_path.mkdir(parents=True, exist_ok=True)
     validate_path.mkdir(parents=True, exist_ok=True)
@@ -142,7 +135,7 @@ def clean_up():
     shutil.rmtree(path)
 
 def main():
-    download_data()
+    # download_data()
     extract_data()
     split_data(60,20,20)
     clean_up()
@@ -153,31 +146,4 @@ if __name__ == '__main__':
     random.seed(1234)
 
     main()
-
-
-
-
-
-# import torch
-# import torchvision
-# import torchvision.transforms as transforms
-
-# transform = transforms.Compose(
-#     [transforms.ToTensor(),
-#      transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
-
-# batch_size = 4
-
-# trainset = torchvision.datasets.CIFAR10(root='./data', train=True,
-#                                         download=True, transform=transform)
-# trainloader = torch.utils.data.DataLoader(trainset, batch_size=batch_size,
-#                                           shuffle=True, num_workers=2)
-
-# testset = torchvision.datasets.CIFAR10(root='./data', train=False,
-#                                        download=True, transform=transform)
-# testloader = torch.utils.data.DataLoader(testset, batch_size=batch_size,
-#                                          shuffle=False, num_workers=2)
-
-# classes = ('plane', 'car', 'bird', 'cat',
-#            'deer', 'dog', 'frog', 'horse', 'ship', 'truck')
 
