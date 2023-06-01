@@ -44,6 +44,7 @@ class Cifar10(datasets.VisionDataset):
     
 
     def get_classes(self) -> dict:
+        'returns mapping of class name to label'
         return self.class_index_mapping
 
         

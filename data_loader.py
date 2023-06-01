@@ -4,13 +4,14 @@ from data_downloader import get_split_paths, get_meta_path
 import numpy
 
 def unpickle(file: Path) -> dict:
-
+    'unpickles file into dict'
     with file.open('rb') as fo:
         file_data = pickle.load(fo, encoding='latin1')
 
     return file_data
 
 def combine_data(folder: Path) -> tuple[numpy.ndarray,  list]:
+    'given a folder combines data into single numpy array and single label list'
     all_data = []
     all_labels = []
 
@@ -27,23 +28,26 @@ def combine_data(folder: Path) -> tuple[numpy.ndarray,  list]:
     return numpy.vstack(all_data), all_labels
 
 def load_training() -> tuple[numpy.ndarray, list]:
-    
+    'returns training data,labels'
     train, _, _ = get_split_paths()
 
     return combine_data(train)
 
 def load_testing() -> tuple[numpy.ndarray, list]:
+    'returns testing data,labels'
     _, test, _ = get_split_paths()
 
     return combine_data(test)
 
 def load_validation() -> tuple[numpy.ndarray, list]:
+    'returns validation data,labels'
     _, _, validation = get_split_paths()
 
     return combine_data(validation)
 
 
 def load_meta() -> list[bytes]:
+    'returns labels names'
     meta = get_meta_path()
 
     meta_file = unpickle(meta)
