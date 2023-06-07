@@ -134,7 +134,7 @@ def clean_up():
     path = get_extracted_path()
     shutil.rmtree(path)
 
-def main():
+def download_split():
     # download_data()
     extract_data()
     split_data(60,20,20)
@@ -145,5 +145,5 @@ if __name__ == '__main__':
     # create consitent data sampleing
     random.seed(1234)
 
-    main()
+    download_split()
 
