@@ -46,7 +46,7 @@ def load_validation() -> tuple[numpy.ndarray, list]:
     return combine_data(validation)
 
 
-def load_meta() -> list[bytes]:
+def load_meta() -> list[str]:
     'returns labels names'
     meta = get_meta_path()
 

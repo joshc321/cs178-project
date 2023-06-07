@@ -6,6 +6,8 @@
     - torchvision
     - Sklearn
     - requests
+    - numpy
+    - matplotlib
 - Run [data_downloader.py](./data_downloader.py) to download dataset from internet
 
 
