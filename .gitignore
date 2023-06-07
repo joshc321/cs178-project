@@ -7,3 +7,4 @@ data/
 scratch.py
 
 .ipynb_checkpoints/
+.idea/
