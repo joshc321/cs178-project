@@ -135,7 +135,7 @@ def clean_up():
     shutil.rmtree(path)
 
 def download_split():
-    # download_data()
+    download_data()
     extract_data()
     split_data(60,20,20)
     clean_up()
