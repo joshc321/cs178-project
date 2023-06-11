@@ -27,6 +27,8 @@ def train_model(net, tr_loader, te_loader, device, criterion, optimizer, num_epo
 
     loss_vals, tr_acc, te_acc = [], [], []
 
+    running_loss = 0.0
+
     # train the model 
     for epoch in range(num_epochs):  # loop over the dataset multiple times
 
@@ -59,6 +61,12 @@ def train_model(net, tr_loader, te_loader, device, criterion, optimizer, num_epo
                 te_acc.append(te_a)
 
                 running_loss = 0.0
+    
+    tr_a = evaluate(net, tr_loader, device)
+    te_a = evaluate(net, te_loader, device)
+    loss_vals.append(running_loss)
+    tr_acc.append(tr_a)
+    te_acc.append(te_a)
 
     print('Finished Training')
     return loss_vals, tr_acc, te_acc
