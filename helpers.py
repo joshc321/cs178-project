@@ -1,4 +1,7 @@
 import torch
+import matplotlib.pyplot as plt
+import numpy as np
+import torchvision
 
 def evaluate(net: torch.nn, loader: torch.utils.data.DataLoader, device: torch.device) -> float:
     'evaluates model accuracy on loader data'
@@ -70,3 +73,32 @@ def train_model(net, tr_loader, te_loader, device, criterion, optimizer, num_epo
 
     print('Finished Training')
     return loss_vals, tr_acc, te_acc
+
+
+def imshow(img):
+    img = img / 2 + 0.5     # unnormalize
+    npimg = img.numpy()
+    plt.imshow(np.transpose(npimg, (1, 2, 0)))
+    plt.show()
+
+
+def show_errors(net, loader, classes, num_row_out):
+    cur = 0
+
+    for images, labels in loader:
+        # print images
+        outputs = net(images)
+        _, predicted = torch.max(outputs, 1)
+
+        if (predicted == labels).sum().item() == 0:
+            imshow(torchvision.utils.make_grid(images))
+            print('GroundTruth: ', ' '.join(f'{classes[labels[j]]:5s}' for j in range(4)))
+
+            
+
+            print('Predicted: ', ' '.join(f'{classes[predicted[j]]:5s}'
+                                        for j in range(4)))
+            cur+=1
+
+            if cur > num_row_out:
+                break
